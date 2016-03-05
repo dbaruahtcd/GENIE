@@ -142,10 +142,13 @@ class DB_Functions {
 	//$db_fun->storeUser('Dan1','Dan1','Dan1');
 	echo $db_fun->isUserExists('Dan');
 	print_r($db_fun->getUserByEmailAndPassword('Dan','Dan'));
+<<<<<<< HEAD
 	
 	/*
 	*added comments
 	*/
+=======
+>>>>>>> 1e5a35b9ddfcaeb805d312a13b3c92916d42ea79
 
 
 ?>
