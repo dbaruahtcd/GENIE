@@ -4,7 +4,7 @@
 class DB_Functions {
 	
 	private $conn;
-	private $table_name;
+	//private $table_name;
 	
 	
 
@@ -13,7 +13,7 @@ class DB_Functions {
 		require_once 'DB_Connect.php';
 		$db = new DB_Connect();
 		$this->conn = $db->connect();
-		$table_name = "user_test";
+		//$table_name = "user_test";
 	}
 
 		//destructor
@@ -26,16 +26,15 @@ class DB_Functions {
 	*returns user details
 	*/
 
-    public function storeUser($name, $email,$password) {
+    public function storeUser($name, $email, $password, $sex, $phonenumber, $dateofbirth, $weight, $height, $typeofdiabetes, $address, $country, $city, $zipcode) {
 		
-		echo "$this->table_name";
-    	$hash = $this->hashAlgo($password);
+		$hash = $this->hashAlgo($password);
     	$encrypted_password = $hash["encrypted"]; //encrypted password
     	$salt = $hash["salt"]; // the salt associated with the password
 
-    	$query = "INSERT INTO ".$table_name."(name, email, password,salt) values($1, $2, $3, $4)";
+    	$query = "INSERT INTO user_info(name, email, password, salt, sex, phone_number, date_of_birth, weight, height, diabetes_type, address, country, city, zipcode) values($1, $2, $3, $4)";
 
-    	$vals = array($name,$email,$encrypted_password,$salt);
+    	$vals = array($name,$email,$encrypted_password, $salt, $sex, $phonenumber, $dateofbirth, $weight, $height, $typeofdiabetes, $address, $country, $city, $zipcode);
     	
     	$result = pg_query_params($this->conn,$query,$vals);
     
@@ -44,7 +43,7 @@ class DB_Functions {
 
     	if($result)
     	{
-    		$stmt = "Select * from user_test where email = $1";
+    		$stmt = "Select * from user_info where email = $1";
     		$eml = array($email);
     		$check = pg_query_params($this->conn,$stmt,$eml);
     		$user = pg_fetch_assoc($check);
@@ -62,26 +61,35 @@ class DB_Functions {
 
 	public function getUserByEmailAndPassword($email, $password)
 	{
-		$query = "Select email,password,salt from user_test where email = $1";
+		$query = "Select name,email,salt,created_at,password from user_info where email = $1";
 		$val = array($email);
 		$result = pg_query_params($this->conn, $query, $val);
+			
+		//while ($row = pg_fetch_assoc($result)) {
+		//error_log("123".$row);
 		
+
 		// fetch the row as an associative array
 		$user = pg_fetch_assoc($result);
-		
+			//while ($row = pg_fetch_assoc($result)) {
+		//error_log("user".$row);
+
 		$user_entered_password = $this->checkhashAlgo($user['salt'],$password);
 		
 		//echo $user_entered_password;
 		//echo $user['password']."<br\>";
-		
+		error_log("111".$user_entered_password);
+		error_log("222".$user['password']);
 		//print_r($user_entered_password);
 		if($result && (strcmp($user_entered_password,$user['password']) == 0))
 		{	
 			//$user = pg_fetch_assoc($result);
-			return "validated";
+			//return "validated";
+			error_log($user);
+			return $user;
 		}
 		else
-			return "wrong";
+			return NULL;
 
 
 	}	
@@ -92,7 +100,7 @@ class DB_Functions {
 	*/
 	 public function isUserExists($email)
 	 {
-	 	$query = "Select * from user_test where email=$1";
+	 	$query = "Select * from user_info where email=$1";
 	 	$val = array($email);
 	 	$result = pg_query_params($this->conn, $query, $val);
 
@@ -137,18 +145,10 @@ class DB_Functions {
 
 
 //-------------//test codes
-	$db_fun = new DB_Functions();
-	$db_fun->storeUser('Dan','Dan','Dan');
+	//$db_fun = new DB_Functions();
+	//$db_fun->storeUser('Dan','Dan','Dan');
 	//$db_fun->storeUser('Dan1','Dan1','Dan1');
-	echo $db_fun->isUserExists('Dan');
-	print_r($db_fun->getUserByEmailAndPassword('Dan','Dan'));
-<<<<<<< HEAD
-	
-	/*
-	*added comments
-	*/
-=======
->>>>>>> 1e5a35b9ddfcaeb805d312a13b3c92916d42ea79
-
+	//echo $db_fun->isUserExists('Dan');
+	//print_r($db_fun->getUserByEmailAndPassword('Dan','Dan'));
 
 ?>

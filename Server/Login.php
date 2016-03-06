@@ -1,19 +1,27 @@
 <?php
+	
+	$req_dump = print_r($_REQUEST, TRUE);
+	//$fp = fopen('logs/request.log', 'a');
+	error_log($req_dump);
+	//fwrite($fp, $req_dump);
+	//fclose($fp); 
 	require_once 'include/DB_Functions.php';
 	$db = new DB_Functions();
 
+	error_log($_POST);
 	$response = array("error" => FALSE);
 
 	if(isset($_POST['email']) && isset($_POST['password']))
 	{
 		//receiving the post params
-		$email = $_POST['$email'];
-		$password = $_POST['$password'];
+		$email = $_POST['email'];
+		$password = $_POST['password'];
 
 		// get the user by email and password
+		error_log($email.$password);
 		$user = $db->getUserByEmailAndPassword($email, $password);
 
-		if($user != false)
+		if($user !== false)
 		{
 			//the user is found
 			$response["error"] = FALSE;
@@ -26,7 +34,7 @@
 		{
 			//user not found with the provided credentials
 			$response["error"] = TRUE;
-			$responsep["error_msg"] = "Login credentials are wrong. Please try again!";
+			$response["error_msg"] = "Login credentials are wrong. Please try again!";
 			echo json_encode($response);
 		}
 	}
