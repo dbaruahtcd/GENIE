@@ -21,14 +21,25 @@
 		error_log($email.$password);
 		$user = $db->getUserByEmailAndPassword($email, $password);
 
-		if($user !== false)
+		if($user !== NULL)
 		{
 			//the user is found
-			$response["error"] = FALSE;
-			$response["user"]["name"] = $user["name"];
-			$response["user"]["email"] = $user["email"];
-			$response["user"]["created_at"]= $user["created_at"];
-			echo json_encode($response);
+				$response["error"]=FALSE;
+            	$response["user"]["name"] = $user["name"];
+            	$response["user"]["email"] = $user["email"];
+				$response["user"]["id"] = $user["user_id"];
+				$response["user"]["sex"] = $user["sex"];
+				$response["user"]["phonenumber"] = $user["phone_number"];
+				$response["user"]["dateofbirth"] = $user["date_of_birth"];
+				$response["user"]["weight"] = $user["weight"];
+				$response["user"]["height"] = $user["height"];
+				$response["user"]["typeofdiabetes"] = $user["diabetes_type"];
+				$response["user"]["address"] = $user["address"];
+				$response["user"]["country"] = $user["country"];
+				$response["user"]["city"] = $user["city"];
+				$response["user"]["zipcode"] = $user["zipcode"];
+            $response["user"]["created_at"] = $user["created_at"];
+            echo json_encode($response);
 		}
 		else
 		{

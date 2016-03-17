@@ -26,18 +26,27 @@ class DB_Functions {
 	*returns user details
 	*/
 
+	public function getEmail($user_id)
+		{
+			$query = "select email from user_info where user_id = $1";
+			$val= array($user_id);
+			$result = pg_query_params($this->conn,$query,$val);
+			$row = pg_fetch_assoc($result);
+			return $row['email'];
+		}
+
     public function storeUser($name, $email, $password, $sex, $phonenumber, $dateofbirth, $weight, $height, $typeofdiabetes, $address, $country, $city, $zipcode) {
 		
 		$hash = $this->hashAlgo($password);
     	$encrypted_password = $hash["encrypted"]; //encrypted password
     	$salt = $hash["salt"]; // the salt associated with the password
 
-    	$query = "INSERT INTO user_info(name, email, password, salt, sex, phone_number, date_of_birth, weight, height, diabetes_type, address, country, city, zipcode) values($1, $2, $3, $4)";
+    	$query = "INSERT INTO user_info(name, email, password, salt, sex, phone_number, date_of_birth, weight, height, diabetes_type, address, country, city, zipcode) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
 
     	$vals = array($name,$email,$encrypted_password, $salt, $sex, $phonenumber, $dateofbirth, $weight, $height, $typeofdiabetes, $address, $country, $city, $zipcode);
     	
     	$result = pg_query_params($this->conn,$query,$vals);
-    
+		error_log("Line - 40 - inside  store user function");
 
     	//check for successful store
 
@@ -47,10 +56,39 @@ class DB_Functions {
     		$eml = array($email);
     		$check = pg_query_params($this->conn,$stmt,$eml);
     		$user = pg_fetch_assoc($check);
+			error_log("Line 50 DBF - $user");
     		return $user;
     	}
     	else 
     		return false;
+    }
+
+
+    /*
+    this function update the user information
+    @params - all the fields in the user info table
+    */
+
+    public function updateUser($name, $email, $password, $sex, $phonenumber, $dateofbirth, $weight, $height, $typeofdiabetes, $address, $country, $city, $zipcode,$user_id)
+    {
+
+    	$query = "Update USER_INFO set NAME = $1, EMAIL = $2, PHONE_NUMBER = $3, DATE_OF_BIRTH = $4 , WEIGHT = $5, HEIGHT = $6 , DIABETES_TYPE = $7 ,ADDRESS = $8, COUNTRY=$9, CITY=$10, ZIPCODE = $11, DTM_UPDATED = current_timestamp 
+    		where user_id = $12";
+    	$val = array($name, $email, $phonenumber,$dateofbirth,$weight,$height,$typeofdiabetes,$address,$country,$city,$zipcode,$user_id);
+    	$result = pg_query_params($this->conn,$query,$val);
+
+    	if($result)
+    	{
+    		$stmt = "Select * from user_info where email = $1";
+    		$eml = array($email);
+    		$check = pg_query_params($this->conn,$stmt,$eml);
+    		$user = pg_fetch_assoc($check);
+			error_log("Line 50 DBF - $user");
+    		return $user;
+    	}
+    	else 
+    		return false;
+
     }
     
 	
@@ -61,7 +99,7 @@ class DB_Functions {
 
 	public function getUserByEmailAndPassword($email, $password)
 	{
-		$query = "Select name,email,salt,created_at,password from user_info where email = $1";
+		$query = "Select * from user_info where email = $1";
 		$val = array($email);
 		$result = pg_query_params($this->conn, $query, $val);
 			
