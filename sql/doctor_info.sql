@@ -1,5 +1,7 @@
 ﻿/*This table will store all the information related the doctor */
 
+/*This table will store all the information related the doctor */
+
 DROP TABLE IF EXISTS DOCTOR_INFO;
 
 CREATE TABLE IF NOT EXISTS DOCTOR_INFO(
@@ -16,8 +18,13 @@ CREATE TABLE IF NOT EXISTS DOCTOR_INFO(
 	PASSWORD CHARACTER VARYING(256),
 	SALT CHARACTER VARYING(50),
 	SEX CHARACTER VARYING(2),
-	DATE_OF_BIRTH DATE
+	DATE_OF_BIRTH DATE,
+	PATIENT_ID INT
 	)
 
+	
+
+	
+	
 	
 	
