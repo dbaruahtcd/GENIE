@@ -23,6 +23,10 @@ CREATE TABLE IF NOT EXISTS DOCTOR_INFO(
 	)
 
 	
+<<<<<<< HEAD
+=======
+	
+>>>>>>> d3a64075c0f1011e2ec5da46c5d94177989d86de
 
 	
 	
