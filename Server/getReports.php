@@ -13,7 +13,7 @@
 		
 		switch($activity_header) 
 		{
-			case "blood_info" :
+			case "blood" :
 				
 				@error_log("inside the blood info type");
 				
@@ -21,7 +21,7 @@
 				echo $glucose;
 				break;
 			
-			case "activity_info":
+			case "activity":
 			
 				@error_log("inside the activity info type");
 				
@@ -29,7 +29,7 @@
 				echo $blood;
 				break;
 				
-			case "food_info" :
+			case "food" :
 				
 				@error_log("Inside the food info type");
 				$food = $get_reports->getFoodInfo($user_id);

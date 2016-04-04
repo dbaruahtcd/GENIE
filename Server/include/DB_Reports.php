@@ -76,11 +76,12 @@
 				
 				//creating the json format
 				$result_blood["user_id"] = $res_pre["user_id"];
-				$result_blood["blood_info"]["blood_test_date"] = $res_pre["blood_test_date"];
-				$result_blood["blood_info"]["hg_count"] = $res_pre["haemoglobin_count"];
-				$result_blood["blood_info"]["cholesterol"] = $res_pre["cholesterol"];
-				$result_blood["blood_info"]["ahdl_cholesterol"] = $res_pre["ahdl_cholesterol"];
-				$result_blood["blood_info"]["ldl_cholesterol"] = $res_pre["ldl_cholesterol"];
+				#TODO
+				#$result_blood["blood_info"]["blood_test_date"] = $res_pre["blood_test_date"];
+				#$result_blood["blood_info"]["hg_count"] = $res_pre["haemoglobin_count"];
+				#$result_blood["blood_info"]["cholesterol"] = $res_pre["cholesterol"];
+				#$result_blood["blood_info"]["ahdl_cholesterol"] = $res_pre["ahdl_cholesterol"];
+				#$result_blood["blood_info"]["ldl_cholesterol"] = $res_pre["ldl_cholesterol"];
 				$result_blood["glucose_test"] = $res_curr;
 
 				return json_encode($result_blood);
