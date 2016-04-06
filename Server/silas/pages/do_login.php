@@ -11,8 +11,8 @@ $post_autologin = $_POST['autologin'];
 $dbFn = new DB_Functions();
 
 $credArr = $dbFn->getUserByEmailAndPassword($post_username, $post_password);
-$config_username = $credArr['email'];
-$config_password = $credArr['password'];
+$cookie_check_usr = $credArr['email'];
+$cookie_check_pswd = $credArr['password'];
  
 	if(!is_null($credArr))
 	{
@@ -20,9 +20,9 @@ $config_password = $credArr['password'];
 			 
 			if($post_autologin == 1)
 			    {
-			    $password_hash = md5($config_password); // will result in a 32 characters hash
+			    $password_hash = md5($cookie_check_pswd); // will result in a 32 characters hash
 			 
-			    setcookie ($cookie_name, 'usr='.$config_username.'&hash='.$password_hash, time() + $cookie_time);
+			    setcookie ($cookie_name, 'usr='.$cookie_check_usr.'&hash='.$password_hash, time() + $cookie_time);
 			    
 			   }
 			 

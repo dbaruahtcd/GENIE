@@ -1,29 +1,34 @@
 <?php
 session_start();
 
-include_once '../src/DB_Connect.php';
-require_once 'config.php';
-include_once '../src/DB_Functions.php';
+include_once '../src/DB_Connect.php'; // Connection class
+require_once 'config.php'; // creates Cookie and put It in a Session variable.
+include_once '../src/DB_Functions.php'; // create Connection class Object 
  
 // Is the user already logged in? Redirect him/her to the private page
 
 if(isset($_COOKIE[$cookie_name]) && $cookie_name == 'siteAuthGenie')
 {
 	parse_str($_COOKIE[$cookie_name]);
- 
+    
     // Make a verification
  
-    if(($usr == $config_username) && ($hash == md5($config_password)))
-        {
+    //if(($usr == $config_username) && ($hash == md5($config_password)))
+    if($usr) {
 	        // Register the session
 	        $_SESSION['email'] = $config_username;
 	        header("Location: index.php");
 			exit;
         }
         else {
-        	header('Location:404.html');
+        	header('Location:404.html?usr=' . urlencode("usr not set in cookie"));
         }
 	
+}
+
+if (isset($_SESSION['email'])) {
+    header("Location: index.php");
+    exit;
 }
  
 if(isset($_POST['login']))
@@ -126,7 +131,7 @@ if(isset($_POST['login']))
                         <div class="alert alert-success"> <?php echo $_GET['loggedout']; ?> </div>
                     <?php } ?>
                     <div class="panel-body">
-                        <form role="form" method="post" >
+                        <form role="form" method="post" action="login.php">
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="E-mail" name="email" type="email" value="" autofocus required>

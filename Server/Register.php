@@ -32,16 +32,14 @@ if(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['password
 	$zipcode = $_POST['zipcode'];
 	// to handle the update of the user info fields
 	$user_id = $_POST['id'];
-		echo $user_id;    	
-
+		
     if(isset($_POST['id']))
     {
     	
     	$old_email = $db->getemail($user_id);
-    			echo $old_email;    	
-
+    
     	$user_check = $db->getUserByEmailAndPassword($old_email, $password);
-		echo $user_check;    	
+	    	
     	if($user_check !== NULL)
     	{
 	    	$user = $db->updateUser($name, $email, $password,$sex,$phonenumber, $dateofbirth, $weight, $height, $typeofdiabetes, $address, $country, $city, $zipcode,$user_id);
@@ -96,9 +94,11 @@ if(isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['password
     {
         //create a new user
         $user = $db->storeUser($name, $email, $password,$sex,$phonenumber, $dateofbirth, $weight, $height, $typeofdiabetes, $address, $country, $city, $zipcode);
-		error_log("Line 47 - $user");
-        if($user)
+		@error_log("Line 47 - $user");
+		$response = NULL;
+		if($user)
         {
+            
             $response["error"]=FALSE;
             $response["user"]["name"] = $user["name"];
             $response["user"]["email"] = $user["email"];

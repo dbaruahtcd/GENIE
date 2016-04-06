@@ -39,18 +39,81 @@
 			}
 		}
 		
-		// stores the blood glucose information of the user
-		public function storeGlucoseInfo()
+		// stores the  general blood glucose information of the user
+		public function storeBloodInfo()
 		{
 			$query="INSERT INTO BLOOD_TEST_INFO(HAEMOGLOBIN_COUNT, PRE_FAST_BLOOD_SUGAR, POST_FAST_BLOOD_SUGAR, CHOLESTEROL,AHDL_CHOLESTEROL,LDL_CHOLESTEROL, USER_ID) values($1, $2, $3, $4, $5, $6, $7)";
 			//$val=array($)
 		}
 		
-		// stores the food intake information of the user
+		
+		// stores the glucose information from each of the test of the user
+		public function storeGlucoseInfo($user_id, $glucose_test_date, $is_fasting, $glucose_level, $notes)
+		{
+			$result_blood = array("error"=>"false");
+			$query = "INSERT INTO BLOOD_GLUCOSE_INFO(USER_ID, GLUCOSE_TEST_DATE, IS_FASTING, GLUCOSE_LEVEL, NOTES) 
+					  VALUES ($1, $2, $3, $4, $5)";
+			$val = array($user_id, $glucose_test_date, $is_fasting, $glucose_level, $notes);
+			$result = pg_query_params($this->conn,$query,$val);
+
+			if($result)
+			{
+				$query = "SELECT MAX(BLOOD_TEST_ID) blood_test_id FROM BLOOD_GLUCOSE_INFO WHERE USER_ID = $1";
+				$var = array($user_id);
+				$result = pg_query_params($query,$var);
+				$res_curr = pg_fetch_assoc($result);
+				$result_blood["test_id"] =  $res_curr["blood_test_id"];
+				return json_encode($result_blood);
+			}		  
+
+		}
+
+		//deletes a glucose test based on the test id
+		public function deleteGlucoseInfo($test_id)
+		{
+			$result_blood = array("error"=>"false");
+			$query = "DELETE FROM BLOOD_GLUCOSE_INFO WHERE BLOOD_TEST_ID = $1";
+			$var = array($test_id);
+			$result = pg_query_params($this->conn,$query,$var);
+			if($result)
+			{
+				$result_blood["deleted test_id"] = $test_id;
+				return json_encode($result_blood);
+			}
+			else
+			{
+				$result_blood["error"] = "TRUE";
+				$result_blood["error_msg"] = "Failed to execute the delete query";
+				return json_encode($result_blood);
+			}
+		}
 		
 	
-		//gets the blood glucose infomation
+		//updates a particular test based on the test_id 
+		public function updateGlucoseInfo($test_id,$glucose_level,$notes, $is_fasting,$glucose_test_date)
+		{
+			$result_blood = array("error"=>"false");
+			$query = "UPDATE BLOOD_GLUCOSE_INFO SET GLUCOSE_LEVEL = $1, NOTES = $3, IS_FASTING = $4, GLUCOSE_TEST_DATE =$5 
+					  WHERE BLOOD_TEST_ID = $2";
+			$var =array($glucose_level, $test_id, $notes, $is_fasting, $glucose_test_date);
+			$result = pg_query_params($this->conn,$query, $var);
+			if($result)
+			{
+				$result_blood["updated test id"] = $test_id;
+				return json_encode($result_blood);
+			}
+			else
+			{
+				$result_blood["error"] ="TRUE";
+				$result_blood["error_msg"] = "Failed the update the record";
+				return $result_blood;
+			}
+		}
+
 		
+
+
+		//gets the blood glucose infomation
 		public function getGlucoseInfo($user_id)
 		{
 			$val= array($user_id);
@@ -64,7 +127,7 @@
 			
 			//getting the current blood_glucose_info
 
-			$query_curr = "SELECT pre_fast, post_fast, glucose_test_date FROM BLOOD_GLUCOSE_INFO 
+			$query_curr = "SELECT glucose_test_date, blood_test_id, is_fasting, glucose_level, notes  FROM BLOOD_GLUCOSE_INFO 
 							WHERE user_id = $1 ORDER BY glucose_test_date DESC";
 			$result_curr = pg_query_params($this->conn,$query_curr,$val);
 			

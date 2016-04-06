@@ -56,7 +56,7 @@ class DB_Functions {
     		$eml = array($email);
     		$check = pg_query_params($this->conn,$stmt,$eml);
     		$user = pg_fetch_assoc($check);
-			error_log("Line 50 DBF - $user");
+			@error_log("Line 50 DBF - $user");
     		return $user;
     	}
     	else 

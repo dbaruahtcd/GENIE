@@ -57,14 +57,9 @@ class DB_Functions {
     $query = "select email,salt,password from doctor_info where email = $1";
     $val = array($email);
     $result = pg_query_params($this->conn, $query, $val);
-      
-    //while ($row = pg_fetch_assoc($result)) {
-    //error_log("123".$row);
     
     // fetch the row as an associative array
     $user = pg_fetch_assoc($result);
-      //while ($row = pg_fetch_assoc($result)) {
-    //error_log("user".$row);
     $user_entered_password = $this->checkhashAlgo($user['salt'],$password);
     
     //echo $user_entered_password;
@@ -74,8 +69,6 @@ class DB_Functions {
     //print_r($user_entered_password);
     if($result && (strcmp($user_entered_password,$user['password']) == 0))
     { 
-      //$user = pg_fetch_assoc($result);
-      //return "validated";
       error_log($user);
       return $user;
     }
@@ -121,6 +114,56 @@ class DB_Functions {
      {
       $hash = base64_encode(sha1($password . $salt, true) . $salt);
       return $hash;
+     }
+
+     public function fetchPatients($doctorEmail)
+     {
+       $query = "select * from user_info where doctor_id in (select doctor_id from doctor_info where email = $1);";
+        $val = array($doctorEmail);
+        $result = pg_query_params($this->conn, $query, $val);
+        if (!is_null($result)) {
+          return $result;
+        } else{
+          return NULL;
+        }
+        
+     }
+     public function getBloodGlucoseInfo($doctor_id, $patientname)
+     {
+       $query = "select glucose_test_date, glucose_level from blood_glucose_info where user_id IN (select user_id from user_info where doctor_id = $1 AND name = $2);";
+        $val = array($doctor_id, $patientname);
+        $result = pg_query_params($this->conn, $query, $val);
+        if (!is_null($result)) {
+          return $result;
+        } else{
+          return NULL;
+        }
+     }
+
+     public function getID($doc_email)
+     {
+       $query = "select doctor_id from doctor_info where email = $1";
+        $val = array($doc_email);
+        $result = pg_query_params($this->conn, $query, $val);
+        if (!is_null($result)) {
+          $r = pg_fetch_assoc($result);
+          return $r['doctor_id'];
+          
+        } else{
+          return NULL;
+        }
+     }
+
+     public function getBloodInfo($doctor_id, $patientname)
+     {
+       $query = "select blood_test_date, haemoglobin_count, cholesterol, ahdl_cholesterol, ldl_cholesterol from blood_test_info where user_id IN (select user_id from user_info where doctor_id = $1 AND name = $2);";
+        $val = array($doctor_id, $patientname);
+        $result = pg_query_params($this->conn, $query, $val);
+        if (!is_null($result)) {
+          return $result;
+        } else{
+          return NULL;
+        }
      }
   
 }
