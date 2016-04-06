@@ -41,19 +41,19 @@ hypoEvents <- function(data) {
 hypoBg <- function(data) {
   
   hypoList <- lapply(unique(data$genie.code), function(i) { ##For each unique genieCode ##Create a dataframe with that genieCode's readings data
-    subset(data, genie.code==i) -> user.data 
+    subset(data, genie.code==i) -> usr.data 
     
     ##Subset this dataframe into time buckets
-    subset(user.data, bg.timestamp <= (min(mse.timestamp) - 90) & bg.timestamp > (min(mse.timestamp) - 120)) -> onetwenty.retro    
-    subset(user.data, bg.timestamp <= (min(mse.timestamp) - 60) & bg.timestamp > (min(mse.timestamp) - 90)) -> ninety.retro
-    subset(user.data, bg.timestamp <= (min(mse.timestamp) - 30) & bg.timestamp > (min(mse.timestamp) - 60)) -> sixty.retro 
-    subset(user.data, bg.timestamp <= min(mse.timestamp) & bg.timestamp > (min(mse.timestamp)-30)) -> thirty.retro
-    subset(user.data, bg.timestamp > min(mse.timestamp) & bg.timestamp <= (min(mse.timestamp) + 30)) -> thirty.day
-    subset(user.data, bg.timestamp > (min(mse.timestamp) + 30) & bg.timestamp <= (min(mse.timestamp) + 60)) -> sixty.day
-    subset(user.data, bg.timestamp > (min(mse.timestamp) + 60) & bg.timestamp <= (min(mse.timestamp) + 90)) -> ninety.day
-    subset(user.data, bg.timestamp > (min(mse.timestamp) + 90) & bg.timestamp <= (min(mse.timestamp) + 120)) -> onetwenty.day
-    subset(user.data, bg.timestamp > (min(mse.timestamp) + 120) & bg.timestamp <= (min(mse.timestamp) + 150)) -> onefifty.day
-    subset(user.data, bg.timestamp > (min(mse.timestamp) + 150) & bg.timestamp <= (min(mse.timestamp) + 180)) -> oneeighty.day
+    subset(usr.data, bg.timestamp <= (min(mse.timestamp) - 90) & bg.timestamp > (min(mse.timestamp) - 120)) -> onetwenty.retro    
+    subset(usr.data, bg.timestamp <= (min(mse.timestamp) - 60) & bg.timestamp > (min(mse.timestamp) - 90)) -> ninety.retro
+    subset(usr.data, bg.timestamp <= (min(mse.timestamp) - 30) & bg.timestamp > (min(mse.timestamp) - 60)) -> sixty.retro 
+    subset(usr.data, bg.timestamp <= min(mse.timestamp) & bg.timestamp > (min(mse.timestamp)-30)) -> thirty.retro
+    subset(usr.data, bg.timestamp > min(mse.timestamp) & bg.timestamp <= (min(mse.timestamp) + 30)) -> thirty.day
+    subset(usr.data, bg.timestamp > (min(mse.timestamp) + 30) & bg.timestamp <= (min(mse.timestamp) + 60)) -> sixty.day
+    subset(usr.data, bg.timestamp > (min(mse.timestamp) + 60) & bg.timestamp <= (min(mse.timestamp) + 90)) -> ninety.day
+    subset(usr.data, bg.timestamp > (min(mse.timestamp) + 90) & bg.timestamp <= (min(mse.timestamp) + 120)) -> onetwenty.day
+    subset(usr.data, bg.timestamp > (min(mse.timestamp) + 120) & bg.timestamp <= (min(mse.timestamp) + 150)) -> onefifty.day
+    subset(usr.data, bg.timestamp > (min(mse.timestamp) + 150) & bg.timestamp <= (min(mse.timestamp) + 180)) -> oneeighty.day
     
     list(onetwenty.retro, ninety.retro, sixty.retro, thirty.retro, thirty.day, sixty.day, ninety.day, onetwenty.day, onefifty.day, oneeighty.day) -> timeList 
     
