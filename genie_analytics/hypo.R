@@ -1,9 +1,7 @@
-##Data to be processed by hypo function must be formatted as: 
-##Col1: Glooko Code, Col2: MSE GUID, Col3: MSE Timestamp, Col4: BG Value, Col5: BG Timestamp
 
-processHypoData <- function(data) {
+prsHypoData <- function(data) {
   
-  names(data) <- c("glooko.code", "guid", "mse.timestamp", "bg", "bg.timestamp")
+  names(data) <- c("genie.code", "guid", "mse.timestamp", "bg", "bg.timestamp")
   
   data$mse.timestamp <- as.character(data$mse.timestamp) ##Convert to date class
   data$mse.timestamp <- as.POSIXct(data$mse.timestamp, format="%Y-%m-%d %H:%M:%S")
@@ -15,19 +13,18 @@ processHypoData <- function(data) {
   return(data)
 }
 
-#Function to narrow down Hypo Events - run this on processed hypo data
+#Function to find the Hypo Events
 hypoEvents <- function(data) {
   
-  dataList <- lapply(unique(data$glooko.code), function(i) {
-    subset(data, glooko.code==i) -> x ##Subset data by Glooko code
-    subset(x, bg < 70) -> y ##Subset readings below 70  3564    5
+  dataList <- lapply(unique(data$genie.code), function(i) {
+    subset(data, genie.code==i) -> x ##Subset data by genie code ##Subset readings below 70  3564    5
+    subset(x, bg < 70) -> y 
     
     z <- sort(as.numeric(y$bg.timestamp)) ##Order readings from most distant -> most recent
-    hypo.events <- vector("numeric", length(z)) ##Create empty hypo events vector 
+    hypo.events <- vector("numeric", length(z))  
     
-    for (i in seq(length(z))) { ##for each hypo reading per glooko.code
+    for (i in seq(length(z))) { ##for each hypo reading per genie.code
       length(subset(hypo.events, (z[i]-7200) <= hypo.events & hypo.events <= z[i])) -> a
-      ##Find number of hypo readings within previous 2 hours in the hypo events dataframe
       hypo.events[i] <- ifelse(a==0, z[i], NA) ##If none, add reading to hypo events dataframe
     }
     
@@ -41,14 +38,10 @@ hypoEvents <- function(data) {
   return(data)
 }
 
-
-##Hypo BG function - use this on data processed by Hypo Events function
-##Note: Timestamp data from Hypo Events processed object needs to be converted from 'posix' -> 'date' for function hypoBg function
-
 hypoBg <- function(data) {
   
-  hypoList <- lapply(unique(data$glooko.code), function(i) { ##For each unique GlookoCode
-    subset(data, glooko.code==i) -> user.data ##Create a dataframe with that GlookoCode's readings data
+  hypoList <- lapply(unique(data$genie.code), function(i) { ##For each unique genieCode ##Create a dataframe with that genieCode's readings data
+    subset(data, genie.code==i) -> user.data 
     
     ##Subset this dataframe into time buckets
     subset(user.data, bg.timestamp <= (min(mse.timestamp) - 90) & bg.timestamp > (min(mse.timestamp) - 120)) -> onetwenty.retro    
@@ -64,10 +57,10 @@ hypoBg <- function(data) {
     
     list(onetwenty.retro, ninety.retro, sixty.retro, thirty.retro, thirty.day, sixty.day, ninety.day, onetwenty.day, onefifty.day, oneeighty.day) -> timeList 
     
-    ##For each time bucket
+    
     timeList70 <- lapply(1:10, function (i) {
-      if (nrow(timeList[[i]]) > 5) { ##if there are > 5 readings
-        return(subset(timeList[[i]], bg < 70)) ##return the readings that are below 70
+      if (nrow(timeList[[i]]) > 5) { ##if there are > 5 readings ##return the readings that are below 70
+        return(subset(timeList[[i]], bg < 70)) 
       } else {return(NA)} ##if there are < 5 readings, return NA for the timebucket
     })
     
@@ -80,7 +73,7 @@ hypoBg <- function(data) {
   })
   
   ldply(hypoList, rbind) -> hypo.df
-  unique(data$glooko.code) -> rownames(hypo.df)
+  unique(data$genie.code) -> rownames(hypo.df)
   
   for (i in seq(ncol(hypo.df))) {
     hypo.df[,i] <- as.numeric(as.character(hypo.df[,i])) 
