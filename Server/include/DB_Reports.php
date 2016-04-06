@@ -1,3 +1,5 @@
+//this class handles all the user's activity information -- food, blood
+
 <?php
 	
 	class DB_Reports
@@ -27,6 +29,7 @@
 		//stores the activity information of the user;
 		public function storeFoodInfo($user_id, $food_type)
 		{
+			$food_info["error"] = "false";
 			$query="INSERT INTO food_info(user_id, type_of_food) values
 			($1, $2)";
 			$val= array($user_id, $food_type);
@@ -35,15 +38,23 @@
 			if($result)
 			{
 				error_log("activity info inserted successfully");
-				//$stmt="select * from food_info where e";
+				$food_info["user_id"] = $user_id;
+				return json_encode($food_info);
 			}
 		}
 		
 		// stores the  general blood glucose information of the user
-		public function storeBloodInfo()
+		public function storeBloodInfo($haemoglobin_count,$pre_fast_blood_sugar, $post_fast_blood_sugar, $cholesterol,$ahdl_cholesterol,$ldl_cholesterol,$user_id)
 		{
 			$query="INSERT INTO BLOOD_TEST_INFO(HAEMOGLOBIN_COUNT, PRE_FAST_BLOOD_SUGAR, POST_FAST_BLOOD_SUGAR, CHOLESTEROL,AHDL_CHOLESTEROL,LDL_CHOLESTEROL, USER_ID) values($1, $2, $3, $4, $5, $6, $7)";
-			//$val=array($)
+			$val=array(haemoglobin_count,$pre_fast_blood_sugar, $post_fast_blood_sugar, $cholesterol,$ahdl_cholesterol,$ldl_cholesterol,$user_id);
+			$result = pg_query_params($this->conn,$query,$val);
+			if($result)
+			{
+				$result_blood["error"] = "false";
+				$result_blood["user_id"] = $user_id;
+				return json_encode($result_blood);
+			}
 		}
 		
 		
