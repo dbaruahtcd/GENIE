@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="2dp"
+    android:paddingBottom="12dp"
+    android:orientation="horizontal"
+    android:background="?android:attr/selectableItemBackground"
+android:clickable="true"
+    android:focusable="true"
+    android:weightSum="5">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/qlucose_level_textview_id"
+            android:paddingRight="2dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="12dp"
+            android:paddingBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/glucose_metric_textview_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="6dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="2dp"
+            android:text="mg/dl"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/time_of_test_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="12:00 pm"
+        android:textSize="12sp" />
+
+</LinearLayout>

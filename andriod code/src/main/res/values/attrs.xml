@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AppTheme">
+        <attr name="backgroundSelector" format="reference" />
+
+        <!-- Dialogs -->
+        <attr name="dialogTitle" format="reference" />
+        <attr name="dialogContent" format="reference"/>
+        <attr name="dialogButtonLeft" format="reference" />
+        <attr name="dialogButtonRight" format="reference" />
+        <attr name="dialogEditText" format="reference" />
+    </declare-styleable>
+
+</resources>

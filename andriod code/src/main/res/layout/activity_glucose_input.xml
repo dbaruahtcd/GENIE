@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bwc.genie.glucose.GlucoseInputActivity">
+
+
+    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="3dp"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <at.grabner.circleprogress.CircleProgressView
+            android:id="@+id/circleView"
+            android:layout_width="match_parent"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            CircleProgressView:cpv_autoTextSize="true"
+            CircleProgressView:cpv_barColor="@android:color/white"
+            CircleProgressView:cpv_barWidth="24dp"
+            CircleProgressView:cpv_contourColor="?attr/colorAccent"
+            CircleProgressView:cpv_contourSize="8dp"
+            CircleProgressView:cpv_fillColor="?attr/colorAccent"
+            CircleProgressView:cpv_maxValue="500"
+            CircleProgressView:cpv_rimColor="@color/colorAccentWithOpacity"
+            CircleProgressView:cpv_rimWidth="20dp"
+            CircleProgressView:cpv_seekMode="true"
+            CircleProgressView:cpv_showUnit="true"
+            CircleProgressView:cpv_textColor="@android:color/white"
+            CircleProgressView:cpv_textMode="Value"
+            CircleProgressView:cpv_textScale="1"
+            CircleProgressView:cpv_unit="mg/dL"
+            CircleProgressView:cpv_unitColor="@android:color/white"
+            CircleProgressView:cpv_unitPosition="bottom"
+            CircleProgressView:cpv_unitScale="1"
+            CircleProgressView:cpv_value="55" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="2">
+
+
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/radiogroup_fast_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radio_btn_pre_fast"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pre Fast" />
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radio_btn_post_fast"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Post Fast" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/button_date_of_test"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:textColor="?attr/colorAccent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date_of_test"/>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/button_time_of_test"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:textColor="?attr/colorAccent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time_of_test"/>
+
+            </LinearLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_notes"
+                android:layout_width="match_parent"
+                android:padding="12dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/input_notes"
+                    android:layout_width="match_parent"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/notes" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

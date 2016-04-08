@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.bwc.genie.activity.IntroScreenActivity" >
+    <item android:id="@+id/menu_delete_id"
+        android:title="@string/done"
+        android:icon="@mipmap/ic_delete_white_24dp"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/menu_done_id"
+        android:title="@string/done"
+        android:icon="@mipmap/ic_done_white_24dp"
+        app:showAsAction="always" />
+
+
+</menu>

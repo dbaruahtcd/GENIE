@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_add_test_id"
+        android:title="@string/add"
+        android:icon="@mipmap/ic_add_white_24dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_logout_id"
+        android:title="@string/logout"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_go_to_profile_id"
+        android:title="@string/profile"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_help_id"
+        android:title="@string/help"
+        app:showAsAction="never" />
+
+
+
+</menu>
