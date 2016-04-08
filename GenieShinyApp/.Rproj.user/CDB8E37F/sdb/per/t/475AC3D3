@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\n\nsource(\"hypogylcemiaEvents.R\") \nsource(\"formattedReadings.R\") \n\nreadings <- read.csv(\"readings.csv\")\nreadings <- formattedReadings(readings[,c(2:6)])\n\nshinyServer(function(input, output) {\n  \n  \n  output$hypoglycemia.readings <- renderPrint({\n    input$action ## Input from the user\n    \n    ## Selecting glucose values\n    hypoglycemia.readings <- subset(readings, bglucose <= input$InHypo)\n    \n    ## Returning the appropriate readings\n    return(nrow(hypoglycemia.readings))\n  })\n  \n  output$hypoglycemia.events <- renderPrint({    \n    ## Selecting glucose values\n    hypoglycemia.readings <- subset(readings, bglucose <= input$InHypo)\n    # Passing values to the hypoglycemiaEvents function\n    hypoglycemia.events <- hypogylcemiaEvents(data = hypoglycemia.readings, hypo.threshold = input$InHypo)\n    ## Returning the appropriate events\n    return(nrow(hypoglycemia.events))\n  })\n  \n \n})",
+    "created" : 1459633740267.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4186342368",
+    "id" : "475AC3D3",
+    "lastKnownWriteTime" : 1460113322,
+    "last_content_update" : -2147483648,
+    "path" : "C:/GenieShinyApp/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

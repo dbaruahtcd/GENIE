@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "formattedReadings <- function(data) {\n  \n  names(data) <- c(\"genie.code\", \"guid\", \"input.timestamp\", \"bglucose\", \"bglucose.timestamp\")\n  \n  if (class(data$input.timestamp)==\"Date\" | class(data$bglucose.timestamp)==\"Date\") stop(\"sync/bglucose timestamps cannot be 'Date' class. Hours, Minutes, Seconds must be present.\")\n  \n  data$input.timestamp <- as.character(data$input.timestamp) ## Convertion to date class\n  data$input.timestamp <- as.POSIXct(data$input.timestamp, format=\"%Y-%m-%d %H:%M:%S\")\n  data$bglucose.timestamp <- as.character(data$bglucose.timestamp) ## Convertion to date class\n  data$bglucose.timestamp <- as.POSIXct(data$bglucose.timestamp, format=\"%Y-%m-%d %H:%M:%S\")\n  \n  data <- subset(data, bglucose.timestamp <= as.POSIXct(Sys.Date())) ## Removing redundant readings \n  data$bglucose <- as.numeric(as.character(data$bglucose)) ## Converting to numeric form\n  \n  return(data)\n}",
+    "created" : 1459852674105.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3335156425",
+    "id" : "6B640FD6",
+    "lastKnownWriteTime" : 1460113081,
+    "last_content_update" : -2147483648,
+    "path" : "C:/GenieShinyApp/formattedReadings.R",
+    "project_path" : "formattedReadings.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

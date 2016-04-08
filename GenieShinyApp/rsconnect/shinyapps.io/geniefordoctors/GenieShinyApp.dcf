@@ -1,0 +1,9 @@
+name: GenieShinyApp
+account: geniefordoctors
+server: shinyapps.io
+appId: 91826
+bundleId: 409066
+url: https://geniefordoctors.shinyapps.io/GenieShinyApp/
+when: 1459638254.66739
+asMultiple: FALSE
+asStatic: FALSE

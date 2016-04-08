@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "\nhypogylcemiaEvents <- function(data, hypo.threshold) { ## Function for calculating hypoglycemia events\n  \n  require(plyr, quietly=TRUE)\n  \n  dataList <- lapply(unique(data$genie.code), function(i) {\n    subset(data, genie.code==i) -> x ## Subset the data by genie code\n    subset(x, bglucose < hypo.threshold) -> y ## Subset all the readings below hypoglycemia threshold\n    \n    z <- sort(as.numeric(y$bglucose.timestamp)) ## most recent readings\n    hypo.events <- vector(\"numeric\", length(z)) ## Creating hypoglycemic events vector \n    \n    for (i in seq(length(z))) { ## for each hypo reading per genie.code\n      length(subset(hypo.events, (z[i]-7200) <= hypo.events & hypo.events <= z[i])) -> a\n      ## Calculating number of readings within previous 2 hours\n      hypo.events[i] <- ifelse(a==0, z[i], NA) ## If none, add readings to hypo events dataframe\n    }\n    \n    hypo.events <- as.POSIXct(hypo.events, origin=\"1970-01-01\") ##Convert timestamps, numeric -> POSIXct\n    subset(x, bglucose >= hypo.threshold | bglucose.timestamp %in% hypo.events) -> hypo.final ##Exclude hypo readings outside of hypo events dataframe\n    return(hypo.final)\n  })\n  \n  ldply(dataList, rbind) -> data\n  return(data)\n}\n",
+    "created" : 1459852772346.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3135468686",
+    "id" : "7C512DAF",
+    "lastKnownWriteTime" : 1460112999,
+    "last_content_update" : -2147483648,
+    "path" : "C:/GenieShinyApp/hypogylcemiaEvents.R",
+    "project_path" : "hypogylcemiaEvents.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
